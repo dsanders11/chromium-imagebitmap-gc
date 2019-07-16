@@ -1,17 +1,10 @@
 const imageData = new ImageData(1920, 1080);
 
-const imageBitmaps = [];
-
 function ack () {
-  postMessage('ACK')
+  postMessage('PONG')
 }
 
 onmessage = async () => {
-  imageBitmaps.push(await createImageBitmap(imageData));
-
-  if (imageBitmaps.length > 10) {
-    imageBitmaps.shift();
-  }
-
+  await createImageBitmap(imageData);
   setTimeout(ack, 40);
 }
