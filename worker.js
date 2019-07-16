@@ -1,4 +1,4 @@
-const imageData = new ImageData(1920, 1080);
+const imageData = new ImageData(3840, 2160);
 
 function ack () {
   postMessage('PONG')
