@@ -1,10 +1,12 @@
 const imageData = new ImageData(3840, 2160);
 
-function ack () {
+function pong () {
   postMessage('PONG')
 }
 
-onmessage = async () => {
-  await createImageBitmap(imageData);
-  setTimeout(ack, 40);
+onmessage = async (event) => {
+  if (event.data.message !== 'transfer') {
+    await createImageBitmap(imageData);
+  }
+  setTimeout(pong, 40);
 }
