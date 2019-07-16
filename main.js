@@ -37,9 +37,11 @@ worker.onmessage = () => {
   }
 };
 
-document.getElementById('[name="mode"]').onchange = (event) => {
-  mode = event.target.value;
-}
+Array.from(document.querySelectorAll('[name="mode"]')).map(control => {
+  control.onchange = event => {
+    mode = event.target.value;
+  };
+});
 
 document.getElementById('action').onclick = () => {
   running = !running;
@@ -52,4 +54,4 @@ document.getElementById('action').onclick = () => {
   } else {
     document.getElementById('action').innerText = 'Start';
   }
-}
+};
