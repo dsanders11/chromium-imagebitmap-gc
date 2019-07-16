@@ -3,6 +3,7 @@ const worker = new Worker('./worker.js');
 const imageData = new ImageData(3840, 2160);
 
 let running = false;
+let closeImageBitmap = true;
 let mode = 'background';
 
 async function sendMessage () {
@@ -21,13 +22,19 @@ async function sendMessage () {
     worker.postMessage({
       message: 'PING',
       type: 'noop',
-      imageBitmap
+      imageBitmap,
+      closeImageBitmap
     }, [ imageBitmap ]);
   } else {
     worker.postMessage({
       message: 'PING',
-      type: 'background'
+      type: 'background',
+      closeImageBitmap
     });
+  }
+
+  if (mode === 'main' && closeImageBitmap) {
+    imageBitmap.close();
   }
 }
 
@@ -35,6 +42,10 @@ worker.onmessage = () => {
   if (running) {
     sendMessage();
   }
+};
+
+document.getElementById('close').onchange = (event) => {
+  closeImageBitmap = event.target.checked;
 };
 
 Array.from(document.querySelectorAll('[name="mode"]')).map(control => {

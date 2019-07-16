@@ -5,8 +5,21 @@ function pong () {
 }
 
 onmessage = async (event) => {
-  if (event.data.type !== 'noop') {
-    await createImageBitmap(imageData);
+  const { type, closeImageBitmap } = event.data;
+
+  if (type !== 'noop') {
+    const imageBitmap = await createImageBitmap(imageData);
+
+    if (closeImageBitmap) {
+      imageBitmap.close();
+    }
+  } else {
+    const imageBitmap = event.data.imageBitmap;
+
+    if (imageBitmap && closeImageBitmap) {
+      imageBitmap.close();
+    }
   }
+
   setTimeout(pong, 40);
 }
