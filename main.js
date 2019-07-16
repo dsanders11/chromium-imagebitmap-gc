@@ -3,19 +3,30 @@ const worker = new Worker('./worker.js');
 const imageData = new ImageData(3840, 2160);
 
 let running = false;
-let transfer = false;
+let mode = 'background';
 
 async function sendMessage () {
-  if (transfer) {
-    const imageBitmap = await createImageBitmap(imageData);
+  let imageBitmap;
 
+  if (mode === 'transfer' || mode === 'main') {
+    imageBitmap = await createImageBitmap(imageData);
+  }
+
+  if (mode === 'main') {
     worker.postMessage({
       message: 'PING',
+      type: 'noop'
+    });
+  } else if (mode === 'transfer') {
+    worker.postMessage({
+      message: 'PING',
+      type: 'noop',
       imageBitmap
     }, [ imageBitmap ]);
   } else {
     worker.postMessage({
-      message: 'PING'
+      message: 'PING',
+      type: 'background'
     });
   }
 }
@@ -26,8 +37,8 @@ worker.onmessage = () => {
   }
 };
 
-document.getElementById('transfer').onchange = (event) => {
-  transfer = event.target.checked;
+document.getElementById('[name="mode"]').onchange = (event) => {
+  mode = event.target.value;
 }
 
 document.getElementById('action').onclick = () => {

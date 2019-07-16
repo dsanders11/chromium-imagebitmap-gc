@@ -4,7 +4,12 @@
   </head>
   <body>
     <button type="button" id="action">Start</button>
-    <input type="checkbox" id="transfer">Transfer</input>
+    <br>
+    <input type="radio" name="mode" value="main"> Create on main thread
+    <br>
+    <input type="radio" name="mode" value="transfer"> Create on main thread and transfer
+    <br>
+    <input type="radio" name="mode" value="background" checkd> Create on background thread
     <script src="./main.js"></script>
   </body>
 </html>

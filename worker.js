@@ -5,7 +5,7 @@ function pong () {
 }
 
 onmessage = async (event) => {
-  if (event.data.message !== 'transfer') {
+  if (event.data.type !== 'noop') {
     await createImageBitmap(imageData);
   }
   setTimeout(pong, 40);
