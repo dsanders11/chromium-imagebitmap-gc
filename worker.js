@@ -1,4 +1,4 @@
-const imageData = new ImageData(3840, 2160);
+const imageData = new ImageData(1920, 1080);
 let lastImageBitmap = null;
 
 function pong () {
