@@ -1,4 +1,5 @@
 const imageData = new ImageData(3840, 2160);
+let lastImageBitmap = null;
 
 function pong () {
   postMessage('PONG')
@@ -8,16 +9,20 @@ onmessage = async (event) => {
   const { type, closeImageBitmap } = event.data;
 
   if (type !== 'noop') {
-    const imageBitmap = await createImageBitmap(imageData);
+    lastImageBitmap = await createImageBitmap(imageData);
 
     if (closeImageBitmap) {
-      imageBitmap.close();
+      lastImageBitmap.close();
     }
   } else {
     const imageBitmap = event.data.imageBitmap;
 
-    if (imageBitmap && closeImageBitmap) {
-      imageBitmap.close();
+    if (imageBitmap) {
+      lastImageBitmap = imageBitmap;
+
+      if (closeImageBitmap) {
+        imageBitmap.close();
+      }
     }
   }
 
